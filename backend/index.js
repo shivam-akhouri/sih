@@ -1,7 +1,10 @@
-const express = require("express")
+const express = require("express");
+const { addDoc, collection } = require("firebase/firestore");
+const { db } = require("./firebaseconfig");
+const { user } = require("./models/collections");
 
 const app = express();
 app.get("/", (req, res)=>{
-    res.send("hello sih");
+    addDoc(user, {name: "testvalue1", age: "test value2"}).then(resp=>res.send("added to db"))
 })
 app.listen(8000);
