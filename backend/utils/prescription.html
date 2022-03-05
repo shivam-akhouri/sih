@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Prescription</title>
+    <style>
+      h2{
+        width: "100%";
+        color: blue;
+        text-align: center;
+      }
+      /* .table{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      } */
+      table{
+        width: "90%";
+      }
+      table, th, td{
+        border: 2px solid;
+        border-collapse: collapse;
+      }
+      th{
+        font-size: 20px;
+        width: 660px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+      }
+      td{
+        font-size: 15px;
+        width: 660px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .qrcode{
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+        <h3>Date: 05/03/2022<span style="display:inline-block; width: 1000px;"></span>DOB: 19/04/1969</h3>
+      <h3>Patient Name: Arnab Goswami</h3>
+      <h3>Address: BJP OFFICE</h3>
+        <h3>Allergies: None</h3>
+        <h3>Disease: High Blood Pressure</h3>
+      <h3>Age: 50</h3>
+    </div>
+    <h5>QR Code:</h5>
+    <div class="qrcode"></div>
+    <h2>Medicines:</h2>
+      <table>
+        <tr>
+        <th><b>MedicineName</b></th>
+        <th><b>Dosage</b></th>
+        <th><b>Duration</b></th>
+      </tr>
+      {{#each users}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.age}}</td>
+        <td>{{this.age}}</td>
+      </tr>
+      {{/each}}
+    </table>
+  <!-- </div> -->
+
+
+    <!-- <ul>
+      {{#each users}}
+      <li>Name: {{this.name}}</li>
+      <li>Age: {{this.age}}</li>
+      <br />
+      {{/each}}
+    </ul> -->
+  </body>   
+</html>

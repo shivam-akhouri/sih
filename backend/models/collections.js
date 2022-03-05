@@ -5,5 +5,6 @@ const user = collection(db, "user");
 const doctor = collection(db, "doctor");
 const retailer = collection(db, "retailer");
 const supplier = collection(db, "supplier");
+const prescription = collection(db, "prescription");
 
-module.exports = {user, doctor, retailer, supplier};
+module.exports = {user, doctor, retailer, supplier, prescription};
