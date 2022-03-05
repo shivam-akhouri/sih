@@ -3,11 +3,13 @@ const { addDoc } = require("firebase/firestore");
 const path = require("path");
 const pdf = require("pdf-creator-node");
 const fs = require("fs");
-const { doctor, retailer, supplier, prescription } = require("../models/collections");
+const { user, doctor, retailer, supplier, prescription } = require("../models/collections");
+const User = require("../models/user");
 const Doctor = require("../models/doctor");
 const Prescirption = require("../models/prescirption");
 const Retailer = require("../models/retailer");
 const Supplier = require("../models/supplier");
+const bcrypt = require('bcrypt')
 
 let api = express.Router();
 
@@ -35,6 +37,53 @@ api.use(express.json());
 api.get("/show", (req, res) => {
     res.send("Welcome to api");
 });
+
+
+api.post("/signUp", (req, res) => {
+    let body = req.body;
+    // console.log(req.body);
+    var new_user = new User(body.name, body.email, body.password);
+    let validation = new_user.check();
+    bcrypt.hash(body.password, 10).then(hash => {
+        var val_user = new User(body.name, body.email, hash);
+        if (validation == "success") {
+            addDoc(user, val_user.json()).then(resp => {
+                res.status(201).json({
+                    status: "created",
+                    result: resp.id
+                })
+            })
+                .catch(e => res.status(409).json({
+                    status: "error",
+                    result: e,
+                }));
+        } else {
+            res.status(409).json({
+                status: "error",
+                result: validation,
+            });
+        }
+    }).catch(console.log);
+
+    // res.send("done");
+});
+
+// api.get("/signIn", (req, res) => {
+//     let body = req.body;
+//     // compare body.password and pwd in db
+//     bcrypt.compare(req.body.password, user.password).then(valid => {
+//         if (valid) {
+//             res.send('Success')
+//             // res.json(user);
+//         } else {
+//             res.send('Not Allowed')
+//         }
+
+//     }).catch(next);
+
+// });
+
+
 
 api.post("/createDoctor", (req, res) => {
     let body = req.body;
