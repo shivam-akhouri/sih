@@ -13,6 +13,17 @@ class Doctor {
         this.govLicense = govLicense;
     }
 
+    check(){
+        if(this.firstName == "" || this.lastName == ""){
+            return "Incorrect Name";
+        }else if(!this.email.includes("@") || !this.email.includes(".")){
+            return "Invalid email type";
+        }else if(this.phoneNum.toString().length != 10){
+            return "Invalid Number";
+        }
+        return "success";
+    }
+
     json() {
         return ({
             firstName: this.firstName,
