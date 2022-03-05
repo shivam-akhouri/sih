@@ -1,33 +1,31 @@
 import React from "react";
+import axios from "axios";
 
 function Doctor() {
+  const url = "http://localhost:8000/api/createDoctor";
   const [formValue, setformValue] = React.useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     phone: "",
     license: "",
   });
 
   const handleSubmit = (event) => {
+    event.preventDefault()
     // store the states in the form data
-    //   const loginFormData = new FormData();
-    //   loginFormData.append("", formValue.firstName)
-    //   loginFormData.append("", formValue.lastName)
-    //   loginFormData.append("", formValue.email)
-    //   loginFormData.append("", formValue.phone)
-    //   loginFormData.append("", formValue.license)
-    //   try {
-    //     const response = await axios({
-    //       method: "post",
-    //       url: "/api/login",
-    //       data: loginFormData,
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     });
-    //   } catch(error) {
-    //     console.log(error)
-    //   }
-    // }
+    const loginFormData = new FormData();
+    loginFormData.append("", formValue.firstname)
+    loginFormData.append("", formValue.lastname)
+    loginFormData.append("", formValue.email)
+    loginFormData.append("", formValue.phone)
+    loginFormData.append("", formValue.license)
+    console.log(formValue)
+    axios.post(url, formValue).then(console.log)
+      .catch(console.log)
+
+
+
   };
 
   const handleChange = (event) => {
@@ -54,7 +52,7 @@ function Doctor() {
             
             <hr className="w-full bg-gray-400  " /> */}
           </div>
-          <form>
+          <form method="post" onSubmit={handleSubmit}>
             <div>
               {/* <form> */}
               <label
@@ -64,11 +62,11 @@ function Doctor() {
                 First Name
               </label>
               <input
-                name="firstName"
+                name="firstname"
                 aria-labelledby="email"
                 type="text"
                 className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                value={formValue.firstName}
+                value={formValue.firstname}
                 onChange={handleChange}
               />
             </div>
@@ -81,10 +79,10 @@ function Doctor() {
               </label>
               <div className="relative flex items-center justify-center">
                 <input
-                  name="lastName"
+                  name="lastname"
                   id="pass"
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                  value={formValue.lastName}
+                  value={formValue.lastname}
                   onChange={handleChange}
                 />
               </div>
@@ -119,7 +117,7 @@ function Doctor() {
                 <input
                   name="phone"
                   id="pass"
-                  type="tel"
+                  type="number"
                   maxLength={10}
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                   value={formValue.phone}
@@ -137,7 +135,7 @@ function Doctor() {
               <div className="relative flex items-center justify-center">
                 <input
                   name="license"
-                  type="tel"
+                  type="number"
                   maxLength={6}
                   id="pass"
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
@@ -149,7 +147,8 @@ function Doctor() {
 
             <div className="mt-8">
               <button
-                onChange={handleSubmit}
+                // onSubmit={(e) => handleSubmit(e)}
+
                 type="submit"
                 className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
               >

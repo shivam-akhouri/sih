@@ -1,6 +1,8 @@
 import React from "react";
+import axios from "axios";
 
 function Retailer() {
+  const url = "localhost:8000/api/createRetailer";
   const [formValue, setformValue] = React.useState({
     firstName: "",
     lastName: "",
@@ -14,26 +16,25 @@ function Retailer() {
 
   const handleSubmit = (event) => {
     // store the states in the form data
-    //   const loginFormData = new FormData();
-    //   loginFormData.append("", formValue.firstName)
-    //   loginFormData.append("", formValue.lastName)
-    //   loginFormData.append("", formValue.email)
-    //   loginFormData.append("", formValue.companyname)
-    //   loginFormData.append("", formValue.companyaddr)
-    //   loginFormData.append("", formValue.postal)
-    //   loginFormData.append("", formValue.phone)
-    //   loginFormData.append("", formValue.license)
-    //   try {
-    //     const response = await axios({
-    //       method: "post",
-    //       url: "/api/login",
-    //       data: loginFormData,
-    //       headers: { "Content-Type": "multipart/form-data" },
-    //     });
-    //   } catch(error) {
-    //     console.log(error)
-    //   }
-    // }
+    const loginFormData = new FormData();
+    loginFormData.append("", formValue.firstName)
+    loginFormData.append("", formValue.lastName)
+    loginFormData.append("", formValue.email)
+    loginFormData.append("", formValue.companyname)
+    loginFormData.append("", formValue.companyaddr)
+    loginFormData.append("", formValue.postal)
+    loginFormData.append("", formValue.phone)
+    loginFormData.append("", formValue.license)
+    try {
+      const response = axios({
+        method: "post",
+        url: url,
+        data: loginFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const handleChange = (event) => {
@@ -52,7 +53,7 @@ function Retailer() {
             tabindex="0"
             className="flex justify-center focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
           >
-          Retailer Registration
+            Retailer Registration
           </p>
 
           <div className="w-full flex items-center justify-between py-5">
