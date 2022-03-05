@@ -2,10 +2,10 @@ import React from "react";
 import axios from "axios";
 
 function Manufacturer() {
-  const url = "localhost:8000/api/createSupplier";
+  const url = "http://localhost:8000/api/createSupplier";
   const [formValue, setformValue] = React.useState({
-    firstName: "",
-    lastName: "",
+    firstname: "",
+    lastname: "",
     email: "",
     companyname: "",
     companyaddr: "",
@@ -15,26 +15,20 @@ function Manufacturer() {
   });
 
   const handleSubmit = (event) => {
+    event.preventDefault()
     // store the states in the form data
     const loginFormData = new FormData();
-    loginFormData.append("", formValue.firstName)
-    loginFormData.append("", formValue.lastName)
+    loginFormData.append("", formValue.firstname)
+    loginFormData.append("", formValue.lastname)
     loginFormData.append("", formValue.email)
     loginFormData.append("", formValue.companyname)
     loginFormData.append("", formValue.companyaddr)
     loginFormData.append("", formValue.postal)
     loginFormData.append("", formValue.phone)
     loginFormData.append("", formValue.license)
-    try {
-      const response = axios({
-        method: "post",
-        url: url,
-        data: loginFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    } catch (error) {
-      console.log(error)
-    }
+    console.log(formValue)
+    axios.post(url, formValue).then(console.log)
+      .catch(console.log)
 
   };
 
@@ -62,7 +56,7 @@ function Manufacturer() {
             
             <hr className="w-full bg-gray-400  " /> */}
           </div>
-          <form>
+          <form method="post" onSubmit={handleSubmit}>
             <div>
               {/* <form> */}
               <label
@@ -72,11 +66,11 @@ function Manufacturer() {
                 First Name
               </label>
               <input
-                name="firstName"
+                name="firstname"
                 aria-labelledby="email"
                 type="text"
                 className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                value={formValue.firstName}
+                value={formValue.firstname}
                 onChange={handleChange}
               />
             </div>
@@ -89,10 +83,10 @@ function Manufacturer() {
               </label>
               <div className="relative flex items-center justify-center">
                 <input
-                  name="lastName"
+                  name="lastname"
                   id="pass"
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
-                  value={formValue.lastName}
+                  value={formValue.lastname}
                   onChange={handleChange}
                 />
               </div>
@@ -212,7 +206,7 @@ function Manufacturer() {
 
             <div className="mt-8">
               <button
-                onChange={handleSubmit}
+                // onChange={handleSubmit}
                 type="submit"
                 className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
               >
