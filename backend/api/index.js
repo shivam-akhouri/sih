@@ -39,6 +39,7 @@ api.get("/show", (req, res) => {
     res.send("Welcome to api");
 });
 
+api.use("/analytics", analytics);
 
 api.post("/signUp", (req, res) => {
     let body = req.body;

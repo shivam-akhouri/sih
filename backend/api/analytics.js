@@ -34,7 +34,9 @@ analytics.get("/getDoctorPrescriptions/:doctorid", (req, res)=>{
         console.log(e)
         res.status(409).json({
         "status": "error",
-    })})
-})
+    })});
+});
+
+analytics.get("")
 
 module.exports = analytics;
