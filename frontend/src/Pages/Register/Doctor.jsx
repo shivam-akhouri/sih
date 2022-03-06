@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Doctor() {
   const url = "http://localhost:8000/api/createDoctor";
@@ -44,7 +45,7 @@ function Doctor() {
             tabindex="0"
             className="flex justify-center focus:outline-none text-2xl font-extrabold leading-6 text-gray-800"
           >
-            Registration Form
+           Doctor Registration 
           </p>
 
           <div className="w-full flex items-center justify-between py-5">
@@ -117,7 +118,7 @@ function Doctor() {
                 <input
                   name="phone"
                   id="pass"
-                  type="number"
+                  type="tel"
                   maxLength={10}
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
                   value={formValue.phone}
@@ -135,7 +136,7 @@ function Doctor() {
               <div className="relative flex items-center justify-center">
                 <input
                   name="license"
-                  type="number"
+                  type="tel"
                   maxLength={6}
                   id="pass"
                   className="bg-gray-200 border rounded  text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
@@ -149,10 +150,12 @@ function Doctor() {
               <button
                 // onSubmit={(e) => handleSubmit(e)}
 
-                type="submit"
+                type="submit" 
                 className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
               >
+                <Link to ="/Doctor/DocPass">
                 Create my account
+                </Link>
               </button>
             </div>
           </form>

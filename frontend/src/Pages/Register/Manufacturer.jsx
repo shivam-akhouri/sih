@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Manufacturer() {
   const url = "http://localhost:8000/api/createSupplier";
@@ -205,13 +206,17 @@ function Manufacturer() {
             </div>
 
             <div className="mt-8">
+            <Link to="/Manufacturer/SupplierPass">
               <button
                 // onChange={handleSubmit}
-                type="submit"
+                type="submit"  
                 className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
               >
+               
                 Create my account
+               
               </button>
+              </Link>
             </div>
           </form>
         </div>
