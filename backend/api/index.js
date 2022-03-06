@@ -1,5 +1,6 @@
 const express = require("express");
 const { addDoc } = require("firebase/firestore");
+const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword}  = require("firebase/auth")
 const path = require("path");
 const pdf = require("pdf-creator-node");
 const fs = require("fs");
@@ -10,7 +11,7 @@ const Prescirption = require("../models/prescirption");
 const Retailer = require("../models/retailer");
 const Supplier = require("../models/supplier");
 const analytics = require("./analytics");
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 
 let api = express.Router();
 
@@ -41,51 +42,41 @@ api.get("/show", (req, res) => {
 
 api.use("/analytics", analytics);
 
-api.post("/signUp", (req, res) => {
-    let body = req.body;
-    // console.log(req.body);
-    var new_user = new User(body.name, body.email, body.password);
-    let validation = new_user.check();
-    bcrypt.hash(body.password, 10).then(hash => {
-        var val_user = new User(body.name, body.email, hash);
-        if (validation == "success") {
-            addDoc(user, val_user.json()).then(resp => {
-                res.status(201).json({
-                    status: "created",
-                    result: resp.id
-                })
-            })
-                .catch(e => res.status(409).json({
-                    status: "error",
-                    result: e,
-                }));
-        } else {
-            res.status(409).json({
-                status: "error",
-                result: validation,
-            });
-        }
-    }).catch(console.log);
-
-    // res.send("done");
+api.post("/signUp", (req, res)=>{
+    const body = req.body;
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, body.username, body.password)
+    .then(userCredentials=>{
+        console.log(userCredentials.user);
+        res.status(201).json({
+            "status": "success",
+            "userId": userCredentials.user
+        });
+    })
+    .catch(e=>res.status(400).json({
+        "status": "error",
+        "errorcode": e.code,
+        "errormessage": e.message
+    }));
 });
 
-// api.get("/signIn", (req, res) => {
-//     let body = req.body;
-//     // compare body.password and pwd in db
-//     bcrypt.compare(req.body.password, user.password).then(valid => {
-//         if (valid) {
-//             res.send('Success')
-//             // res.json(user);
-//         } else {
-//             res.send('Not Allowed')
-//         }
-
-//     }).catch(next);
-
-// });
-
-
+api.post("/signIn", (req, res)=>{
+    const body = req.body;
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+    .then(userCredentials=>{
+        console.log(userCredentials.user);
+        res.status(201).json({
+            "status": "success",
+            "userId": userCredentials.user
+        });
+    })
+    .catch(e=>res.status(400).json({
+        "status": "error",
+        "errorcode": e.code,
+        "errormessage": e.message
+    }));
+})
 
 api.post("/createDoctor", (req, res) => {
     let body = req.body;
