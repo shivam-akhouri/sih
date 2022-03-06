@@ -18,7 +18,7 @@ class Retailsales {
             || this.medDosages == "" || this.medQRs == "") {
             return "Invalid Entry";
         }
-        return "Success";
+        return "success";
     }
 
     json() {

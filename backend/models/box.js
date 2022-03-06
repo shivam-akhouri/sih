@@ -13,7 +13,7 @@ class Box {
         if (this.boxQR == "" || this.contractID == "" || this.medQRs == "") {
             return "Invalid Entry";
         }
-        return "Success";
+        return "success";
     }
 
     json() {

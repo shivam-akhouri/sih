@@ -1,4 +1,4 @@
-class Checkpoints {
+class Checkpoint {
     constructor(
         medQR,
         checkpoints
@@ -21,4 +21,4 @@ class Checkpoints {
         });
     }
 }
-module.exports = Checkpoints;
+module.exports = Checkpoint;

@@ -1,4 +1,4 @@
-class Prescription {
+class Prescription2 {
     constructor(
         prescriptionQR,
         doctorReg,
@@ -40,4 +40,4 @@ class Prescription {
         });
     }
 }
-module.exports = Prescription;
+module.exports = Prescription2;
