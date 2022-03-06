@@ -18,15 +18,17 @@ class Supplier {
         this.phoneNum = phoneNum;
         this.govLicense = govLicense;
     }
-    check(){
-        if(this.firstName == "" || this.lastName == ""){
+    check() {
+        if (this.firstName == "" || this.lastName == "") {
             return "Incorrect Name";
-        }else if(!this.email.includes("@") || !this.email.includes(".")){
+        } else if (!this.email.includes("@") || !this.email.includes(".")) {
             return "Invalid email type";
-        }else if(this.postalCode < 100000 || this.postalCode > 999999){
+        } else if (this.postalCode < 100000 || this.postalCode > 999999) {
             return "Invalid postal code";
-        }else if(this.phoneNum.toString().length != 10){
+        } else if (this.phoneNum.toString().length != 10) {
             return "Invalid Number";
+        } else if (this.govLicense.toString().length != 6) {
+            return "Invalid License";
         }
         return "success";
     }

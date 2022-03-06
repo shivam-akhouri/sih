@@ -15,6 +15,9 @@ class Prescirption{
         }
         return "success";
     }
+    getMedicines(){
+        return this.medicines;
+    }
     json(){
         return({
             "doctorId": this.doctorId,

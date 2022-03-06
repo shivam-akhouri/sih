@@ -58,23 +58,13 @@
         <th><b>Dosage</b></th>
         <th><b>Duration</b></th>
       </tr>
-      {{#each users}}
+      {{#each medicines}}
       <tr>
         <td>{{this.name}}</td>
-        <td>{{this.age}}</td>
-        <td>{{this.age}}</td>
+        <td>{{this.amount}}</td>
+        <td>{{this.num}}</td>
       </tr>
       {{/each}}
     </table>
-  <!-- </div> -->
-
-
-    <!-- <ul>
-      {{#each users}}
-      <li>Name: {{this.name}}</li>
-      <li>Age: {{this.age}}</li>
-      <br />
-      {{/each}}
-    </ul> -->
   </body>   
 </html>
