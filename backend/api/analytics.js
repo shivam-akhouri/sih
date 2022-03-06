@@ -1,5 +1,5 @@
 const express  =require("express");
-const { getDoc, doc, query, where, getDocs } = require("firebase/firestore");
+const { getDoc, doc, query, where, getDocs, orderBy } = require("firebase/firestore");
 const { db } = require("../firebaseconfig");
 const { doctor,user, prescription } = require("../models/collections");
 
@@ -18,13 +18,43 @@ analytics.get("/getDoctors/:id", (req, res)=>{
 });
 
 analytics.get("/getDoctorPrescriptions/:doctorid", (req, res)=>{
-    const q = query(prescription, where("doctorId", "==", req.params.doctorid));
+    const q = query(prescription, where("doctorId", "==", req.params.doctorid), orderBy("date"));
+    var doct;
     const result = [];
     getDocs(q)
     .then(snapshot=>{
         snapshot.forEach(doc=>{
             result.push(doc.data())
         });
+    })
+    .then(()=>{
+        const q = query(doctor, where("govLicense", "==", req.params.doctorid));
+        getDocs(q)
+        .then(snapshot=>{
+            doct = snapshot.docs[0].data()
+            console.log(doct);
+        })
+        .then(()=>res.status(200).json({
+            "status": "success",
+            "data": result,
+            "doctorData": doct,
+        }))
+    })
+    .catch(e=>{
+        console.log(e)
+        res.status(409).json({
+        "status": "error",
+    })});
+});
+
+analytics.get("/maxDoctorDispense", (req, res)=>{
+    const q = query(prescription, orderBy("medicines", "desc"));
+    const result = []
+    getDocs(q)
+    .then(snapshot=>{
+        snapshot.forEach(doc=>{
+            result.push(doc.date());
+        })
     })
     .then(()=>res.status(200).json({
         "status": "success",
@@ -33,10 +63,11 @@ analytics.get("/getDoctorPrescriptions/:doctorid", (req, res)=>{
     .catch(e=>{
         console.log(e)
         res.status(409).json({
-        "status": "error",
-    })});
-});
+            "status": "error",
+        });
+    });
+})
 
-analytics.get("")
+analytics.get("/")
 
 module.exports = analytics;

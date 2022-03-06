@@ -3,7 +3,7 @@ class Prescirption{
         this.doctorId = doctorId;
         this.prescriptionId= prescriptionId;
         this.medicines = medicines; // array of medicine names with their dosage in number of tablets and power in mg 
-        this.date = new Date().toUTCString();
+        this.date = new Date()
     }
     check(){
         if(this.doctorId == ""){
@@ -22,7 +22,7 @@ class Prescirption{
         return({
             "doctorId": this.doctorId,
             "prescirptionId": this.prescriptionId,
-            "date": this.date,
+            "date": Number(this.date),
             "medicines": this.medicines,
         });
     }
