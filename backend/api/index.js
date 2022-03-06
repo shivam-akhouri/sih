@@ -8,6 +8,7 @@ const Doctor = require("../models/doctor");
 const Prescirption = require("../models/prescirption");
 const Retailer = require("../models/retailer");
 const Supplier = require("../models/supplier");
+const analytics = require("./analytics");
 
 let api = express.Router();
 
@@ -16,6 +17,8 @@ api.use(express.json());
 api.get("/show", (req, res)=>{
     res.send("Welcome to api");
 });
+
+api.use("/analytics", analytics);
 
 api.post("/createDoctor", (req, res)=>{
     let body = req.body;
@@ -100,19 +103,54 @@ api.post("/createPrescription", (req, res)=>{
 
     if(validation == "success"){
         addDoc(prescription, new_prescription.json())
-        .then(resp=>res.status(201).json({
-            status: "created",
-            result: resp.id,
-        }));
+        .then(resp=>{
+            const html = fs.readFileSync(path.join(__dirname, "../", "utils", "prescription.html"), "utf-8");
+            var options = {
+                format: "A4",
+                orientation: "portrait",
+                border: "10mm",
+                header: {
+                    height: "15mm",
+                    contents: `<div style="text-align: center; color: red;">this is an automatically generated pdf.
+                    Content of this prescription can be verified by scanning the QR Code.</div>`
+                },
+                footer: {
+                    height: "10mm",
+                    contents: {
+                        first: 'Baba Seghal prescription services',
+                        2: 'Second page', // Any page number is working. 1-based index
+                        default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+                        last: 'Last Page'
+                    }
+                }
+            };
+            console.log(new_prescription.getMedicines())
+            var document = {
+                html: html,
+                data: {
+                    medicines: new_prescription.getMedicines(),
+                },
+                path: path.join(__dirname, "../", "buffer", "output.pdf"),
+                type: "",
+            };
+            pdf.create(document, options)
+            .then(result=>console.log(result))
+            .then(()=>res.status(201).json({
+                status: "created",
+                result: resp.id,
+            }));
+        });
     }else{
         res.status(409).json({
             status:"error",
             result: validation,
         });
     }
-})
+});
 
 api.get("/createpdf", (req, res)=>{
+    const body = req.body;
+
     const html = fs.readFileSync(path.join(__dirname, "../", "utils", "prescription.html"), "utf-8");
     var options = {
         format: "A4",
@@ -160,7 +198,9 @@ api.get("/createpdf", (req, res)=>{
     pdf.create(document, options)
     .then(result=>console.log(result))
     .then(res.send("done"))
-})
+});
+
+
 
 module.exports = api;
 
