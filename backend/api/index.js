@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const { addDoc } = require("firebase/firestore");
 const {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword}  = require("firebase/auth")
@@ -12,6 +13,11 @@ const Retailer = require("../models/retailer");
 const Supplier = require("../models/supplier");
 const analytics = require("./analytics");
 // const bcrypt = require('bcrypt')
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
 
 let api = express.Router();
 
@@ -258,7 +264,25 @@ api.get("/createpdf", (req, res)=>{
     .then(res.send("done"))
 });
 
-
+api.get("/sendMessage", (req, res)=>{
+    client.messages.create({
+        from: 'whatsapp:+14155238886',
+        body: '*Next Gen Prescription Services*',
+        mediaUrl: ["http://www.africau.edu/images/default/sample.pdf"],
+        to: 'whatsapp:+919955582384'
+      })
+      .then(console.log)
+      .then(()=>res.json({
+          "status": "success",
+          "message": "message send successfully"
+      }))
+      .catch(e=>{
+          console.log(e);
+          res.json({
+              "status": "error"
+          })
+      })
+});
 
 module.exports = api;
 
